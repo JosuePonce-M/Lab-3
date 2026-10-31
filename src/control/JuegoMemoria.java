@@ -96,17 +96,47 @@ public class JuegoMemoria extends Partida {
 
     @Override
     public boolean verificarPareja() {
-        throw new UnsupportedOperationException();
+        if (primera == -1 || segunda == -1) {
+            throw new IllegalStateException("Seleccione dos cartas");
+        }
+        if (cartas[primera].getId() == cartas[segunda].getId()) {
+            jugadores[turno].sumarPareja(cartas[primera].getPuntos());
+            cartas[primera].marcarEmparejada();
+            cartas[segunda].marcarEmparejada();
+            primera = -1;
+            segunda = -1;
+            bloqueada = false;
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void resolverFallo() {
-        throw new UnsupportedOperationException();
+        if (primera == -1 || segunda == -1) {
+            throw new IllegalStateException("No hay una jugada pendiente");
+        }
+        if (cartas[primera].getId() == cartas[segunda].getId()) {
+            throw new IllegalStateException("Las cartas forman una pareja");
+        }
+        cartas[primera].ocultar();
+        cartas[segunda].ocultar();
+        primera = -1;
+        segunda = -1;
+        cambiarTurno();
+        bloqueada = false;
     }
 
     @Override
     public void cambiarTurno() {
-        throw new UnsupportedOperationException();
+        if (terminada) {
+            throw new IllegalStateException("La partida ya termino");
+        }
+        if (turno == 0) {
+            turno = 1;
+        } else {
+            turno = 0;
+        }
     }
 
     @Override
