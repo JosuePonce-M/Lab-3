@@ -105,10 +105,10 @@ public class VentanaJuego extends JFrame {
     private void nuevaPartida() {
     }
 
-    // Refresca los paneles de los jugadores con los datos de la partida
+    // Refresca los paneles de los jugadores c
     private void actualizar() {
         if (partida == null) {
-            return;   // temporal
+            return;   
         }
         for (int i = 0; i < 2; i++) {
             Jugador jugador = partida.getJugador(i);
@@ -122,6 +122,9 @@ public class VentanaJuego extends JFrame {
             } else {
                 panelesJugador[i].setBackground(Color.WHITE);
             }
+        }
+        for (int i = 0; i < botones.length; i++) {
+            botones[i].setCarta(partida.getCarta(i));
         }
     }
 }
