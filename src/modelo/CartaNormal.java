@@ -8,6 +8,6 @@ public class CartaNormal extends Carta {
 
     @Override
     public int getPuntos() {
-        throw new UnsupportedOperationException();
+        return 1;
     }
 }

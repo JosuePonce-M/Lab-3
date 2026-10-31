@@ -50,6 +50,7 @@ public abstract class Carta implements Cloneable {
     public abstract int getPuntos();
 
     @Override
+    
     public Carta clone() {
         try {
 
@@ -58,6 +59,4 @@ public abstract class Carta implements Cloneable {
             throw new AssertionError("La clonacion no es compatible", e);
         }
     }
-}
-
-
+}    
