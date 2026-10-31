@@ -45,13 +45,13 @@ public class BotonCarta extends JButton {
             setBorderPainted(false);
         }
 
-        repaint();   // vuelve a dibujar el botón
+        repaint();  
     }
 
     // Dibuja la cara de la carta encima del fondo del botón
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);   // pinta el fondo normal
+        super.paintComponent(g);   
         if (carta == null) {
             return;
         }
@@ -59,7 +59,7 @@ public class BotonCarta extends JButton {
             try {
                 DibujosPokemon.dibujar((Graphics2D) g, carta, getWidth(), getHeight());
             } catch (Exception e) {
-                // si el dibujo falla, se muestra solo el nombre
+               
                 g.setColor(Color.BLACK);
                 g.setFont(new Font("SansSerif", Font.BOLD, 12));
                 g.drawString(carta.getNombre(), 8, getHeight() / 2);
