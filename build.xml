@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PokemonMemoria" default="default" basedir=".">
+    <description>Juego de memoria Pokemon</description>
+    <import file="nbproject/build-impl.xml"/>
+</project>
