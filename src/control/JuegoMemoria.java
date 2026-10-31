@@ -62,7 +62,14 @@ public class JuegoMemoria extends Partida {
     }
 
     private int contarEmparejadas(int posicion) {
-        throw new UnsupportedOperationException();
+        if (posicion >= cartas.length) {
+            return 0;
+        }
+        int cantidad = 0;
+        if (cartas[posicion] != null && cartas[posicion].estaEmparejada()) {
+            cantidad = 1;
+        }
+        return cantidad + contarEmparejadas(posicion + 1);
     }
 
     @Override
@@ -96,26 +103,68 @@ public class JuegoMemoria extends Partida {
 
     @Override
     public boolean verificarPareja() {
-        throw new UnsupportedOperationException();
+        if (primera == -1 || segunda == -1) {
+            throw new IllegalStateException("Seleccione dos cartas");
+        }
+        if (cartas[primera].getId() == cartas[segunda].getId()) {
+            jugadores[turno].sumarPareja(cartas[primera].getPuntos());
+            cartas[primera].marcarEmparejada();
+            cartas[segunda].marcarEmparejada();
+            primera = -1;
+            segunda = -1;
+            bloqueada = false;
+            finalizar();
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void resolverFallo() {
-        throw new UnsupportedOperationException();
+        if (primera == -1 || segunda == -1) {
+            throw new IllegalStateException("No hay una jugada pendiente");
+        }
+        if (cartas[primera].getId() == cartas[segunda].getId()) {
+            throw new IllegalStateException("Las cartas forman una pareja");
+        }
+        cartas[primera].ocultar();
+        cartas[segunda].ocultar();
+        primera = -1;
+        segunda = -1;
+        cambiarTurno();
+        bloqueada = false;
     }
 
     @Override
     public void cambiarTurno() {
-        throw new UnsupportedOperationException();
+        if (terminada) {
+            throw new IllegalStateException("La partida ya termino");
+        }
+        if (turno == 0) {
+            turno = 1;
+        } else {
+            turno = 0;
+        }
     }
 
     @Override
     public boolean finalizar() {
-        throw new UnsupportedOperationException();
+        terminada = contarEmparejadas(0) == TOTAL_CARTAS;
+        return terminada;
     }
 
     @Override
     public String getResultado() {
-        throw new UnsupportedOperationException();
+        if (!terminada) {
+            throw new IllegalStateException("La partida no ha terminado");
+        }
+        int puntos1 = jugadores[0].getPuntos();
+        int puntos2 = jugadores[1].getPuntos();
+        if (puntos1 > puntos2) {
+            return "Ganador: " + jugadores[0].getNombre() + " con " + puntos1 + " puntos";
+        } else if (puntos2 > puntos1) {
+            return "Ganador: " + jugadores[1].getNombre() + " con " + puntos2 + " puntos";
+        }
+        return "Empate: ambos jugadores tienen " + puntos1 + " puntos";
     }
 }
