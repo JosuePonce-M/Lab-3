@@ -8,40 +8,56 @@ public abstract class Carta implements Cloneable {
     private boolean emparejada;
 
     public Carta(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descubierta = false;
+        this.emparejada = false;
     }
 
     public int getId() {
-        throw new UnsupportedOperationException();
+        return id;
     }
 
     public String getNombre() {
-        throw new UnsupportedOperationException();
+        return nombre;
     }
 
     public boolean estaDescubierta() {
-        throw new UnsupportedOperationException();
+        return descubierta;
     }
 
     public boolean estaEmparejada() {
-        throw new UnsupportedOperationException();
+        return emparejada;
     }
 
     public void mostrar() {
-        throw new UnsupportedOperationException();
+        if (!emparejada) {
+            this.descubierta = true;
+        }
     }
 
     public void ocultar() {
-        throw new UnsupportedOperationException();
+        if (!emparejada) {
+            this.descubierta = false;
+        }
     }
 
     public void marcarEmparejada() {
-        throw new UnsupportedOperationException();
+        this.emparejada = true;
+        this.descubierta = true;
     }
 
     public abstract int getPuntos();
 
     @Override
     public Carta clone() {
-        throw new UnsupportedOperationException();
+        try {
+
+            return (Carta) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("La clonación no es compatible", e);
+        }
     }
 }
+
+
