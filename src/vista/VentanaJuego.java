@@ -12,11 +12,12 @@ import javax.swing.JPanel;
 import control.Partida;
 import javax.swing.JFrame;
 
+
 public class VentanaJuego extends JFrame {
  // atributos
     private Partida partida;
     private Color fondo = new Color(255, 222, 89);
-    
+    private BotonCarta[] botones = new BotonCarta[Partida.TOTAL_CARTAS];
       // paneles para informacion
     private JPanel[] panelesJugador = new JPanel[2];
     private JLabel[] lblNombres = new JLabel[2];
@@ -41,10 +42,16 @@ public class VentanaJuego extends JFrame {
         principal.add(crearPanelJugador(0), BorderLayout.WEST);
         principal.add(crearPanelJugador(1), BorderLayout.EAST);
 
-        // Centro: aquí irá el tablero (siguiente parte)
+        // Centro: tablero de 6 x 6 cartas
         JPanel tablero = new JPanel(new GridLayout(Partida.FILAS, Partida.COLUMNAS, 5, 5));
         tablero.setBackground(fondo);
-        principal.add(tablero, BorderLayout.CENTER) ;
+        for (int i = 0; i < botones.length; i++) {
+            final int posicion = i;
+            botones[i] = new BotonCarta();
+            botones[i].addActionListener(e -> seleccionar(posicion));
+            tablero.add(botones[i]);
+        }
+        principal.add(tablero, BorderLayout.CENTER);
         
          add(principal);
 
@@ -56,6 +63,7 @@ public class VentanaJuego extends JFrame {
         panel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.DARK_GRAY, 2),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        
 
         JLabel lblTitulo = new JLabel("Jugador " + (i + 1));
         lblNombres[i] = new JLabel("Nombre");
@@ -68,6 +76,7 @@ public class VentanaJuego extends JFrame {
         panel.add(lblAciertos[i]);
         panel.add(lblPuntos[i]);
         panelesJugador[i] = panel;
+        
 
         
         JPanel contenedor = new JPanel(new BorderLayout());
@@ -76,5 +85,7 @@ public class VentanaJuego extends JFrame {
         contenedor.add(panel, BorderLayout.NORTH);
         return contenedor;
     }
-
+    // Se ejecuta cuando dan clic en una carta
+    private void seleccionar(int posicion) {
+    }
 }
