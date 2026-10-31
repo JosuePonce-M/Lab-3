@@ -19,6 +19,7 @@ public class JuegoMemoria extends Partida {
     public void iniciar(String nombre1, String nombre2) {
         Jugador.validarNombres(nombre1, nombre2);
         crearTablero();
+        mezclar(cartas.length - 1);
         jugadores[0] = new Jugador(nombre1);
         jugadores[1] = new Jugador(nombre2);
         turno = 0;
@@ -50,7 +51,14 @@ public class JuegoMemoria extends Partida {
     }
 
     private void mezclar(int posicion) {
-        throw new UnsupportedOperationException();
+        if (posicion <= 0) {
+            return;
+        }
+        int otra = azar.nextInt(posicion + 1);
+        Carta aux = cartas[posicion];
+        cartas[posicion] = cartas[otra];
+        cartas[otra] = aux;
+        mezclar(posicion - 1);
     }
 
     private int contarEmparejadas(int posicion) {
@@ -59,7 +67,31 @@ public class JuegoMemoria extends Partida {
 
     @Override
     public void seleccionarCarta(int posicion) {
-        throw new UnsupportedOperationException();
+        if (posicion < 0 || posicion >= cartas.length) {
+            throw new IndexOutOfBoundsException("Posicion fuera del tablero");
+        }
+        if (terminada) {
+            throw new IllegalStateException("La partida ya termino");
+        }
+        if (bloqueada) {
+            throw new IllegalStateException("Espere a que termine la jugada");
+        }
+        if (cartas[posicion] == null) {
+            throw new IllegalStateException("Primero inicie la partida");
+        }
+        if (posicion == primera) {
+            throw new IllegalArgumentException("No puede elegir dos veces la misma carta");
+        }
+        if (cartas[posicion].estaDescubierta() || cartas[posicion].estaEmparejada()) {
+            throw new IllegalArgumentException("Esa carta ya esta descubierta");
+        }
+        cartas[posicion].mostrar();
+        if (primera == -1) {
+            primera = posicion;
+        } else {
+            segunda = posicion;
+            bloqueada = true;
+        }
     }
 
     @Override
