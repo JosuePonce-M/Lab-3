@@ -62,7 +62,14 @@ public class JuegoMemoria extends Partida {
     }
 
     private int contarEmparejadas(int posicion) {
-        throw new UnsupportedOperationException();
+        if (posicion >= cartas.length) {
+            return 0;
+        }
+        int cantidad = 0;
+        if (cartas[posicion] != null && cartas[posicion].estaEmparejada()) {
+            cantidad = 1;
+        }
+        return cantidad + contarEmparejadas(posicion + 1);
     }
 
     @Override
@@ -106,6 +113,7 @@ public class JuegoMemoria extends Partida {
             primera = -1;
             segunda = -1;
             bloqueada = false;
+            finalizar();
             return true;
         }
         return false;
@@ -141,11 +149,22 @@ public class JuegoMemoria extends Partida {
 
     @Override
     public boolean finalizar() {
-        throw new UnsupportedOperationException();
+        terminada = contarEmparejadas(0) == TOTAL_CARTAS;
+        return terminada;
     }
 
     @Override
     public String getResultado() {
-        throw new UnsupportedOperationException();
+        if (!terminada) {
+            throw new IllegalStateException("La partida no ha terminado");
+        }
+        int puntos1 = jugadores[0].getPuntos();
+        int puntos2 = jugadores[1].getPuntos();
+        if (puntos1 > puntos2) {
+            return "Ganador: " + jugadores[0].getNombre() + " con " + puntos1 + " puntos";
+        } else if (puntos2 > puntos1) {
+            return "Ganador: " + jugadores[1].getNombre() + " con " + puntos2 + " puntos";
+        }
+        return "Empate: ambos jugadores tienen " + puntos1 + " puntos";
     }
 }
