@@ -8,10 +8,10 @@ public abstract class Carta implements Cloneable {
     private boolean emparejada;
 
     public Carta(int id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descubierta = false;
-        this.emparejada = false;
+        this.id=id;
+        this.nombre=nombre;
+        this.descubierta=false;
+        this.emparejada=false;
     }
 
     public int getId() {
@@ -32,19 +32,19 @@ public abstract class Carta implements Cloneable {
 
     public void mostrar() {
         if (!emparejada) {
-            this.descubierta = true;
+            this.descubierta=true;
         }
     }
 
     public void ocultar() {
         if (!emparejada) {
-            this.descubierta = false;
+            this.descubierta=false;
         }
     }
 
     public void marcarEmparejada() {
-        this.emparejada = true;
-        this.descubierta = true;
+        this.emparejada=true;
+        this.descubierta=true;
     }
 
     public abstract int getPuntos();
@@ -55,7 +55,7 @@ public abstract class Carta implements Cloneable {
 
             return (Carta) super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new AssertionError("La clonación no es compatible", e);
+            throw new AssertionError("La clonacion no es compatible", e);
         }
     }
 }
