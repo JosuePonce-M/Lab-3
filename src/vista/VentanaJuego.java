@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import control.Partida;
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import modelo.Jugador;
 
 
 public class VentanaJuego extends JFrame {
@@ -18,6 +20,7 @@ public class VentanaJuego extends JFrame {
     private Partida partida;
     private Color fondo = new Color(255, 222, 89);
     private BotonCarta[] botones = new BotonCarta[Partida.TOTAL_CARTAS];
+    private Color colorTurno = new Color(133, 183, 235);   // color para quien le toque el turno
       // paneles para informacion
     private JPanel[] panelesJugador = new JPanel[2];
     private JLabel[] lblNombres = new JLabel[2];
@@ -53,7 +56,17 @@ public class VentanaJuego extends JFrame {
         }
         principal.add(tablero, BorderLayout.CENTER);
         
+         //  botón de nueva partida
+        JPanel abajo = new JPanel();
+        abajo.setBackground(fondo);
+        JButton btnNueva = new JButton("Nueva partida");
+        btnNueva.setFont(new Font("SansSerif", Font.BOLD, 16));
+        btnNueva.addActionListener(e -> nuevaPartida());
+        abajo.add(btnNueva);
+        principal.add(abajo, BorderLayout.SOUTH);
+        
          add(principal);
+         actualizar();
 
 }
    // Crea el panel de un jugador (
@@ -87,5 +100,28 @@ public class VentanaJuego extends JFrame {
     }
     // Se ejecuta cuando dan clic en una carta
     private void seleccionar(int posicion) {
+    }
+     // Reinicia la partida (
+    private void nuevaPartida() {
+    }
+
+    // Refresca los paneles de los jugadores con los datos de la partida
+    private void actualizar() {
+        if (partida == null) {
+            return;   // temporal
+        }
+        for (int i = 0; i < 2; i++) {
+            Jugador jugador = partida.getJugador(i);
+            lblNombres[i].setText(jugador.getNombre());
+            lblAciertos[i].setText("Aciertos: " + jugador.getAciertos());
+            lblPuntos[i].setText("Puntos: " + jugador.getPuntos());
+
+            // pintar el panel del jugador en turno
+            if (i == partida.getTurno()) {
+                panelesJugador[i].setBackground(colorTurno);
+            } else {
+                panelesJugador[i].setBackground(Color.WHITE);
+            }
+        }
     }
 }
