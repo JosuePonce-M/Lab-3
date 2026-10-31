@@ -32,7 +32,7 @@ public class VentanaInicio extends JFrame {
         setResizable(false);
 
         Color fondo = new Color(255, 222, 89);   // amarillo
-        Color azul = new Color(42, 117, 187);    // azul Pokémon
+        Color azul = new Color(42, 117, 187);    // azul 
 
         // Panel principal
         JPanel panel = new JPanel(new BorderLayout(10, 20));
@@ -89,7 +89,7 @@ public class VentanaInicio extends JFrame {
         try {
             partida.iniciar(txtJugador1.getText(), txtJugador2.getText());
             new VentanaJuego(partida).setVisible(true);
-            dispose();   // cierra la ventana de inicio
+            dispose();   
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
