@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.awt.GridLayout;
 
 public class VentanaInicio extends JFrame {
 
@@ -41,7 +42,27 @@ public class VentanaInicio extends JFrame {
         titulo.setFont(new Font("SansSerif", Font.BOLD, 28));
         titulo.setForeground(azul);
         panel.add(titulo, BorderLayout.NORTH);
+        
+          // Campos de los jugadores 
+        JPanel datos = new JPanel(new GridLayout(2, 2, 10, 20));
+        datos.setBackground(fondo);
+
+        JLabel lblJugador1 = new JLabel("Jugador 1:");
+        JLabel lblJugador2 = new JLabel("Jugador 2:");
+        lblJugador1.setFont(new Font("SansSerif", Font.BOLD, 16));
+        lblJugador2.setFont(new Font("SansSerif", Font.BOLD, 16));
+
+        txtJugador1 = new JTextField();
+        txtJugador2 = new JTextField();
+
+        datos.add(lblJugador1);
+        datos.add(txtJugador1);
+        datos.add(lblJugador2);
+        datos.add(txtJugador2);
+        panel.add(datos, BorderLayout.CENTER);
 
         add(panel);
+        
+        
     }
 }
