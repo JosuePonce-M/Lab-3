@@ -1,4 +1,4 @@
-package modelo;
+
 
 public class Jugador {
 
@@ -31,11 +31,11 @@ public class Jugador {
 
     public void reiniciar() {
         this.aciertos=0;
-        this.puntos = 0;
+        this.puntos=0;
     }
 
     public static void validarNombres(String nombre1, String nombre2) throws NombreInvalidoException {
-        if (nombre1==null ||nombre1.trim().isEmpty()|| 
+        if (nombre1==null||nombre1.trim().isEmpty()|| 
             nombre2==null||nombre2.trim().isEmpty()) {
             throw new NombreInvalidoException("Los nombres de los jugadores no pueden estar vacios o contener solo espacios");
         }
@@ -52,3 +52,5 @@ public class Jugador {
         }
     }
 }
+
+
