@@ -50,13 +50,10 @@ public abstract class Carta implements Cloneable {
     public abstract int getPuntos();
 
     @Override
-    
-    public Carta clone() {
-        try {
-
-            return (Carta) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError("La clonacion no es compatible", e);
-        }
+    public Carta clone() throws CloneNotSupportedException {
+        Carta copia = (Carta) super.clone();
+        copia.descubierta = false;
+        copia.emparejada = false;
+        return copia;
     }
 }    
