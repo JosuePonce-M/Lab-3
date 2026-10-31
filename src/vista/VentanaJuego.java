@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import modelo.Jugador;
+import javax.swing.SwingConstants;
 
 public class VentanaJuego extends JFrame {
 
@@ -30,6 +31,7 @@ public class VentanaJuego extends JFrame {
 
     private BotonCarta[] botones = new BotonCarta[Partida.TOTAL_CARTAS];
     private Timer pausa;
+    private JLabel lblMensaje = new JLabel("Selecciona una carta", SwingConstants.CENTER);
 
     public VentanaJuego(Partida partida) {
         this.partida = partida;
@@ -60,12 +62,18 @@ public class VentanaJuego extends JFrame {
         principal.add(tablero, BorderLayout.CENTER);
 
         //  botón de nueva partida
-        JPanel abajo = new JPanel();
+        JPanel abajo = new JPanel(new BorderLayout(5, 5));
         abajo.setBackground(fondo);
+        lblMensaje.setFont(new Font("SansSerif", Font.BOLD, 16));
+        abajo.add(lblMensaje, BorderLayout.NORTH);
+
+        JPanel panelBoton = new JPanel();
+        panelBoton.setBackground(fondo);
         JButton btnNueva = new JButton("Nueva partida");
         btnNueva.setFont(new Font("SansSerif", Font.BOLD, 16));
         btnNueva.addActionListener(e -> nuevaPartida());
-        abajo.add(btnNueva);
+        panelBoton.add(btnNueva);
+        abajo.add(panelBoton, BorderLayout.CENTER);
         principal.add(abajo, BorderLayout.SOUTH);
 
         
@@ -113,8 +121,14 @@ public class VentanaJuego extends JFrame {
             // si ya hay dos cartas volteadas, revisar si son pareja
             if (partida.estaBloqueada()) {
                 if (partida.verificarPareja()) {
+                    String nombre = partida.getJugador(partida.getTurno()).getNombre();
+                    lblMensaje.setText("¡Pareja encontrada! " + nombre + " sigue jugando");
                     actualizar();
+                    if (partida.finalizar()) {
+                        mostrarResultado();
+                    }
                 } else {
+                    lblMensaje.setText("No son pareja...");
                     pausa.start();
                 }
             }
@@ -124,10 +138,22 @@ public class VentanaJuego extends JFrame {
         }
     }
 
+    private void mostrarResultado() {
+        lblMensaje.setText("Fin del juego");
+        int opcion = JOptionPane.showConfirmDialog(this,
+                partida.getResultado() + "\n\n¿Quieren jugar otra partida?",
+                "Fin del juego", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            nuevaPartida();
+        }
+    }
+
     
     private void terminarPausa() {
         try {
             partida.resolverFallo();
+            String nombre = partida.getJugador(partida.getTurno()).getNombre();
+            lblMensaje.setText("Turno de " + nombre);
             actualizar();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
@@ -137,6 +163,17 @@ public class VentanaJuego extends JFrame {
 
     // Reinicia la partida 
     private void nuevaPartida() {
+        try {
+            pausa.stop();
+            String nombre1 = partida.getJugador(0).getNombre();
+            String nombre2 = partida.getJugador(1).getNombre();
+            partida.iniciar(nombre1, nombre2);
+            lblMensaje.setText("Selecciona una carta");
+            actualizar();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // Refresca los paneles y las cartas 
@@ -162,5 +199,6 @@ public class VentanaJuego extends JFrame {
         for (int i = 0; i < botones.length; i++) {
             botones[i].setCarta(partida.getCarta(i));
         }
+    
     }
 }
